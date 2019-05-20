@@ -1,14 +1,15 @@
 package com.wojtis;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-@XmlType(propOrder = {"brand", "model","tank","fuelConsumption","engine","country","safetyFeatures"})
+@XmlType(name = "", propOrder = {"brand", "model","tank","fuelConsumption","engine","country","safetyFeatures","ecoCategory","nickname","comment"})
 @XmlRootElement(name = "car")
 public class Car {
-    @XmlAttribute
+    @XmlAttribute(required = true)
     //@XmlSchemaType(name = "date")
     public Date createDate = new Date();
     private String brand;
@@ -20,9 +21,34 @@ public class Car {
     private Engine engine;
     private Country country;
     private List<String> safetyFeatures;
+    private String ecoCategory;
+    @XmlElement(nillable = true )
+    public String nickname;
+    private JAXBElement<String> comment;
+
+    @XmlElementRef(namespace = "", name = "comment", required = false)
+    public JAXBElement<String> getComment() {
+        return comment;
+    }
+
+    public void setComment(JAXBElement<String> comment) {
+        this.comment = comment;
+    }
+
+    public String getCommentText() {
+        if (comment != null ) {
+            if (comment.isNil() == true) {
+                return "nil";
+            } else {return comment.getValue();}
+        }
+        return null;
+
+    }
+
+
 
     @XmlElementWrapper(name = "safetyFeatures")
-    @XmlElement(name = "safetyFeature")
+    @XmlElement(name = "safetyFeature", required = false)
     public List<String> getSafetyFeatures() {
         return safetyFeatures;
     }
@@ -30,7 +56,14 @@ public class Car {
     public void setSafetyFeatures(List<String> safetyFeatures) {
         this.safetyFeatures = safetyFeatures;
     }
+    @XmlElement(defaultValue = "G")
+    public String getEcoCategory() {
+        return ecoCategory;
+    }
 
+    public void setEcoCategory(String ecoCategory) {
+        this.ecoCategory = ecoCategory;
+    }
 
     public Country getCountry() {
         return country;
@@ -44,8 +77,7 @@ public class Car {
         this.country.setCode(code);
     }
 
-
-
+    @XmlElement(required = true)
     public Engine getEngine() {
         return engine;
     }

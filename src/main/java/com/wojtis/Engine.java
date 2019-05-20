@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.*;
 @XmlType(propOrder = {"type", "noOfCylinders","sizeCc"})
 @XmlRootElement
 public class Engine {
-    @XmlElement
+    @XmlElement(required = true)
     public EngineType type;
-    @XmlElement
+    @XmlElement(required = true)
     public int noOfCylinders;
     private int sizeCc;
     private double sizeL;

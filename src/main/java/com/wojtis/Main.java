@@ -2,18 +2,28 @@ package com.wojtis;
 
 import javax.xml.bind.*;
 import javax.xml.namespace.QName;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args) throws JAXBException, IOException {
         System.out.println("Hello");
 
         Car kiaStinger = new Car("Kia","Stinger",60, 9,new Engine(EngineType.V,6,3333));
         kiaStinger.setCountry("Korea","KOR");
         kiaStinger.setSafetyFeatures(Arrays.asList("Air Bags", "Line Assist"));
+        kiaStinger.setEcoCategory("");
+
+        ObjectFactory objectFactory = new ObjectFactory();
+        JAXBElement<String> myComment = objectFactory.createItemComment("Super duper");
+        //JAXBElement<String> myComment = objectFactory.createItemComment(null);
+        //myComment.setNil(true); //it seems not to change anything
+        kiaStinger.setComment(myComment);
 
         System.out.println("Kia Stinger range: " + kiaStinger.getRange());
         System.out.println("Kia Stinger engine: " + kiaStinger.getEngine().getEngineDesc());
@@ -55,8 +65,24 @@ public class Main {
         System.out.println("New car country: " + kiaStinger2.getCountry().getName());
         System.out.println("New car country code: " + kiaStinger2.getCountry().getCode());
         System.out.println("New car safety features: " + kiaStinger2.getSafetyFeatures());
+        System.out.println("New car eco category: " + kiaStinger2.getEcoCategory());
+        System.out.println("New car comment: " + kiaStinger2.getCommentText());
 
+        System.out.println("-----------------------------------");
+        System.out.println("Generate an XML Schema");
 
+        // Generate an XML Schema
+        context.generateSchema(new SchemaOutputResolver() {
+            @Override
+            public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
+                File outputFile = new File("car.xsd");
+                System.out.println("Generating file: " + outputFile + " for namespace: " + namespaceUri);
+                return new StreamResult(outputFile);
+            }
+        });
+
+        System.out.println("-----------------------------------");
+        System.out.println("XXXXX");
 
     }
 }

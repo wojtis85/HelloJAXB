@@ -15,4 +15,6 @@
         <safetyFeature>Cruse Control</safetyFeature>
         <safetyFeature>Traction Control</safetyFeature>
     </safetyFeatures>
+    <ecoCategory></ecoCategory>
+    <comment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
 </car>
