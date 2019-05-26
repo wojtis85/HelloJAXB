@@ -2,7 +2,11 @@ My Notes
 Schemagen - generate an XSD from Java domain model classes
 "C:\Program Files\Java\jdk1.8.0_201\bin\schemagen.exe" -cp target\classes -encoding UTF-8 com.wojtis.Car
 
+xjc - generates java classes from XSD
+"C:\Program Files\Java\jdk1.8.0_201\bin\xjc.exe" -d scr\main\java -p com.wojtis -encoding UTF-8 car.xsd
+
 @XmlType(name = "cars") can specify complex element type in XSD
+@XmlType(name = "") will create anonymous top level element
 
 @XmlElement(required = true) it is just for schema generation, during un/marshalling it is not checked unless we explicitly enable schema validation
 

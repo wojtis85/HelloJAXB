@@ -33,6 +33,8 @@ public class Main {
 
         // Create the JAXB context
         JAXBContext context = JAXBContext.newInstance(Car.class);
+        //JAXBContext context = JAXBContext.newInstance(ObjectFactory.class); //takes class from object factory
+        //JAXBContext context = JAXBContext.newInstance("com.wojtis");  //it will look for ObjectFactory and take class from there
 
         // Create a marshaller
         Marshaller marshaller = context.createMarshaller();
