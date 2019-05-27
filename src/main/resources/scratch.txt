@@ -4,6 +4,8 @@ Schemagen - generate an XSD from Java domain model classes
 
 xjc - generates java classes from XSD
 "C:\Program Files\Java\jdk1.8.0_201\bin\xjc.exe" -d scr\main\java -p com.wojtis -encoding UTF-8 car.xsd
+with bindings file
+"C:\Program Files\Java\jdk1.8.0_201\bin\xjc.exe" -b bindings.xjb -d scr\main\java -p com.wojtis -encoding UTF-8 car.xsd
 
 @XmlType(name = "cars") can specify complex element type in XSD
 @XmlType(name = "") will create anonymous top level element
