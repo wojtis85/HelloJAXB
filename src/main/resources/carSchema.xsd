@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="car">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="brand" type="xs:string" minOccurs="0"/>
+        <xs:element name="model" type="xs:string" minOccurs="0"/>
+        <xs:element name="tank" type="xs:int"/>
+        <xs:element name="fuelConsumption" type="xs:double"/>
+        <xs:element ref="engine"/>
+        <xs:element name="country" type="country" minOccurs="0"/>
+        <xs:element name="safetyFeatures" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="safetyFeature" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ecoCategory" type="xs:string" default="G" minOccurs="0"/>
+        <xs:element name="nickname" type="xs:string" nillable="true" minOccurs="0"/>
+        <xs:element name="comment" type="xs:string" minOccurs="0" nillable="false" />
+      </xs:sequence>
+      <xs:attribute name="createDate" type="xs:date" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="engine" type="engine"/>
+
+  <xs:complexType name="engine">
+    <xs:sequence>
+      <xs:element name="type" type="engineType"/>
+      <xs:element name="noOfCylinders" type="xs:int"/>
+      <xs:element name="sizeCc" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="country">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="code" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="engineType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="V"/>
+      <xs:enumeration value="LINE"/>
+      <xs:enumeration value="W"/>
+      <xs:enumeration value="BOXER"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+

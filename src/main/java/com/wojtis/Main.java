@@ -1,17 +1,22 @@
 package com.wojtis;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.XMLConstants;
 import javax.xml.bind.*;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws JAXBException, IOException {
+    public static void main(String[] args) throws JAXBException, IOException, SAXException {
         System.out.println("Hello");
 
         Car kiaStinger = new Car("Kia","Stinger",60, 9,new Engine(EngineType.V,6,3333));
@@ -45,6 +50,15 @@ public class Main {
         //JAXBElement<com.wojtis.Car> rootElement = new JAXBElement<>(rootElementName, com.wojtis.Car.class, kiaStinger);
         // Marshal and output to the console
         //marshaller.marshal(rootElement, System.out);
+
+        //Add schema validation
+        SchemaFactory schemaFactory =
+                SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = schemaFactory.newSchema(new File("src/main/resources/carSchema.xsd"));
+
+        marshaller.setSchema(schema);
+        marshaller.setEventHandler(new ExampleValidationEventHandler());
+
         marshaller.marshal(kiaStinger, System.out);
 
         System.out.println("-----------------------------------");
@@ -54,6 +68,13 @@ public class Main {
         //JAXBContext context = JAXBContext.newInstance(com.wojtis.Car.class);
         // Create an unmarshaller
         Unmarshaller unmarshaller = context.createUnmarshaller();
+        //Add schema validation
+        //SchemaFactory schemaFactory =
+        //        SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        //Schema schema = schemaFactory.newSchema(new File("src/main/resources/carSchema.xsd"));
+        unmarshaller.setEventHandler(new ExampleValidationEventHandler());  //schema parsing error handler
+
+        unmarshaller.setSchema(schema);
         // Unmarshal the XML
         //JAXBElement<com.wojtis.Car> rootElement2 = unmarshaller.unmarshal(
         //        new StreamSource(new File("src/main/resources/car2.xml")),
