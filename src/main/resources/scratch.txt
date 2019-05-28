@@ -14,9 +14,61 @@ with bindings file
 
 @XmlElement(defaultValue = "G") sets default value for the field during unmarshalling but only if field is present on XML but empty
 
+----------------------------
+INHERITANCE
+@XmlSeeAlso - points from parent class to child classes
 
+Example of inheritance in XSD:
+  <xs:complexType name="address">
+    <xs:sequence>
+      <xs:element name="street" type="xs:string"/>
+      <xs:element name="city" type="xs:string"/>
+      <xs:element name="postalCode" type="xs:string"/>
+      <xs:element name="country" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
 
+  <xs:complexType name="shippingAddress">
+    <xs:complexContent>
+      <xs:extension base="tns:address">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
+  <xs:complexType name="billingAddress">
+    <xs:complexContent>
+      <xs:extension base="tns:address">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="customer">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="address" type="tns:address" maxOccurs="2"/>
+      <xs:element name="loyalty" type="tns:loyalty" default="BRONZE"/>
+    </xs:sequence>
+  </xs:complexType>
+
+Example in XML
+
+    <customer>
+        <name>John Doe</name>
+        <address xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="shippingAddress">
+            <street>123 Main Street</street>
+            <city>Exampleville</city>
+            <postalCode>12345</postalCode>
+            <country>USA</country>
+        </address>
+        <address xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="billingAddress">
+            <street>456 Business Avenue</street>
+            <city>Demo City</city>
+            <postalCode>54321</postalCode>
+            <country>USA</country>
+        </address>
+        <loyalty>SILVER</loyalty>
+    </customer>
+----------------------------
 
 
 http://www.wojtis.com/ps-jaxb

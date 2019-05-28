@@ -70,7 +70,7 @@ public class Main {
         marshaller.marshal(kiaStinger, System.out);
 
         System.out.println("-----------------------------------");
-        System.out.println("Momeory object validation");
+        System.out.println("In-memory object validation");
 
         Validator validator = schema.newValidator();
         validator.setErrorHandler(new ExampleErrorHandler());
