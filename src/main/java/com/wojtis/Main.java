@@ -3,9 +3,16 @@ package com.wojtis;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.util.JAXBSource;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -14,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import javax.xml.validation.Validator;
 
 public class Main {
     public static void main(String[] args) throws JAXBException, IOException, SAXException {
@@ -60,6 +68,16 @@ public class Main {
         marshaller.setEventHandler(new ExampleValidationEventHandler());
 
         marshaller.marshal(kiaStinger, System.out);
+
+        System.out.println("-----------------------------------");
+        System.out.println("Momeory object validation");
+
+        Validator validator = schema.newValidator();
+        validator.setErrorHandler(new ExampleErrorHandler());
+
+        Source source = new JAXBSource(context, kiaStinger);
+        validator.validate(source);
+
 
         System.out.println("-----------------------------------");
         System.out.println("Unmarshal");

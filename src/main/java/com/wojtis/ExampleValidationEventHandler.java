@@ -7,6 +7,7 @@ import javax.xml.bind.ValidationEventHandler;
 import javax.xml.bind.ValidationEventLocator;
 import java.net.URL;
 
+//error handler for schema validation during marshalling unmarshalling
 public class ExampleValidationEventHandler implements ValidationEventHandler {
 
     @Override
