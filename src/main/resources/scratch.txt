@@ -71,4 +71,15 @@ Example in XML
 ----------------------------
 
 
+@XmlAnyElement(lax = true)  - annotates unknown element (can be any type not know yet)
+in xsd schema:
+        <xs:element name="extra" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any namespace="##other" processContents="lax"
+                      minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
 http://www.wojtis.com/ps-jaxb
